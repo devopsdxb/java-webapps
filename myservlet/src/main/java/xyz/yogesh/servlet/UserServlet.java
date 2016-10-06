@@ -2,6 +2,11 @@ package xyz.yogesh.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,24 +26,64 @@ public class UserServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8");
-		PrintWriter out = response.getWriter();
 		
-        out.println("<!DOCTYPE html>");
-        out.println("<html><head>");
-        out.println("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>");
-        out.println("<title>Users</title></head>");
-        
-        out.println("<body>");
-        out.println("<h1>List of Users</h1>");  // says Hello
-        // Echo client's request information
-        out.println("<select multiple>");
-        out.println("<option value=\"User 1\">Volvo</option>");
-        out.println("<option value=\"User 2\">Volvo</option>");
-        out.println("</select>");
-        out.println("</body>");
-        
-        out.println("</html>");
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/netfilms-db", "root", "root");
+			Statement stmt = conn.createStatement();
+			
+			String sql = "select email from user";
+			ResultSet result = stmt.executeQuery(sql);
+		
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			
+	        out.println("<!DOCTYPE html>");
+	        out.println("<html><head>");
+	        out.println("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>");
+	        out.println("<title>Users</title>");
+	        out.println("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css\">");
+	        out.println("</head>");
+	        
+	        out.println("<body>");
+	        out.println("<h1>List of Users</h1>");
+	
+	        out.println("<div style=\"float: left; width: 25%;\">");
+	        out.println("<select multiple>");
+	        
+	        while(result.next()) {
+	        	out.println("<option value=\"" + result.getString("email") + "\">" + result.getString("email") + "</option>");
+	        }
+	        out.println("</select>");
+	        out.println("</div>");
+	        
+	        out.println("<div style=\"float: left; width: 75%;\">");
+			out.println("<table border=\"1\">");
+			
+			sql = "select * from user";
+			result = stmt.executeQuery(sql);
+			
+			while(result.next()) {
+				out.println("<tr><td>");
+				out.println("Name: " + result.getString("name") + "<br>");
+				out.println("Email: " + result.getString("email") + "<br>");
+				out.println("User Type: " + result.getString("usertype") + "<br>");
+				out.println("</td></tr>");
+			}
+			
+			out.println("</table>");
+	        out.println("</div>");
+	        
+	        out.println("</body>");
+	        
+	        out.println("</html>");
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		catch(ClassNotFoundException e) {
+			e.printStackTrace();
+		}	        
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
