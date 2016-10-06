@@ -5,13 +5,13 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
   <servlet>
-  	<servlet-name>UserServlet</servlet-name>
-  	<display-name>UserServlet</display-name>
+  	<servlet-name>OwnerServlet</servlet-name>
+  	<display-name>OwnerServlet</display-name>
   	<description></description>
-  	<servlet-class>xyz.yogesh.servlet.UserServlet</servlet-class>
+  	<servlet-class>xyz.yogesh.servlet.OwnerServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>UserServlet</servlet-name>
-  	<url-pattern>/user</url-pattern>
+  	<servlet-name>OwnerServlet</servlet-name>
+  	<url-pattern>/owner</url-pattern>
   </servlet-mapping>
 </web-app>
