@@ -38,6 +38,8 @@ public class UserServlet extends HttpServlet {
 			response.setContentType("text/html;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			
+			String[] emails = request.getParameterValues("selectEmail");
+			
 	        out.println("<!DOCTYPE html>");
 	        out.println("<html><head>");
 	        out.println("<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'>");
@@ -49,28 +51,44 @@ public class UserServlet extends HttpServlet {
 	        out.println("<h1>List of Users</h1>");
 	
 	        out.println("<div style=\"float: left; width: 25%;\">");
-	        out.println("<select multiple>");
+	        out.println("<form id=\"form1\" name=\"form1\" method=\"post\" action=\"/myservlet/user\">");
+	        out.println("<select multiple name=\"selectEmail\">");
 	        
 	        while(result.next()) {
 	        	out.println("<option value=\"" + result.getString("email") + "\">" + result.getString("email") + "</option>");
 	        }
 	        out.println("</select>");
+	        out.println("<br><input type=\"submit\" name=\"Submit\" value=\"Submit\"/>");
+	        out.println("</form>");
 	        out.println("</div>");
 	        
 	        out.println("<div style=\"float: left; width: 75%;\">");
 			out.println("<table border=\"1\">");
 			
-			sql = "select * from user";
-			result = stmt.executeQuery(sql);
-			
-			while(result.next()) {
-				out.println("<tr><td>");
-				out.println("Name: " + result.getString("name") + "<br>");
-				out.println("Email: " + result.getString("email") + "<br>");
-				out.println("User Type: " + result.getString("usertype") + "<br>");
-				out.println("</td></tr>");
+			if(emails==null) {
+				sql = "select * from user";
+				result = stmt.executeQuery(sql);
+				
+				while(result.next()) {
+					out.println("<tr><td>");
+					out.println("Name: " + result.getString("name") + "<br>");
+					out.println("Email: " + result.getString("email") + "<br>");
+					out.println("User Type: " + result.getString("usertype") + "<br>");
+					out.println("</td></tr>");
+				}
 			}
-			
+			else {
+				for(String email : emails) {
+					sql = "select * from user where email=\"" + email + "\"";
+					result = stmt.executeQuery(sql);
+					result.next();
+					out.println("<tr><td>");
+					out.println("Name: " + result.getString("name") + "<br>");
+					out.println("Email: " + result.getString("email") + "<br>");
+					out.println("User Type: " + result.getString("usertype") + "<br>");
+					out.println("</td></tr>");
+				}
+			}
 			out.println("</table>");
 	        out.println("</div>");
 	        
