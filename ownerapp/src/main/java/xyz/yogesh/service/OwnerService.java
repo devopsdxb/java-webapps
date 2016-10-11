@@ -12,4 +12,8 @@ public class OwnerService {
 	public List<Owner> findAll() {
 		return dao.findAll();
 	}
+
+	public List<Owner> find(String[] ids) {
+		return dao.find(ids);
+	}
 }

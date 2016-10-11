@@ -22,38 +22,70 @@ public class OwnerDAO {
 	public List<Owner> findAll() {
 	
 		List<Owner> ownerList = new ArrayList<Owner>();
-		Owner owner;
 		
 		try {
-			Class.forName(driver);
-			Connection conn = DriverManager.getConnection(db, dbUser, dbPassword);
-			Statement stmt = conn.createStatement();
-			
 			String sql = "select * from " + table;
-			ResultSet result = stmt.executeQuery(sql);
-
+			ResultSet result = getStatement().executeQuery(sql);
 
 			while(result.next()) {
-				owner = new Owner();
-				
-				owner.setId(result.getInt("id"));
-				owner.setFirstName(result.getString("first_name"));
-				owner.setLastName(result.getString("last_name"));
-				owner.setCity(result.getString("city"));
-				owner.setAddress(result.getString("address"));
-				owner.setTelephone(result.getLong("telephone"));
-				
-				ownerList.add(owner);
+				addOwnertoList(result, ownerList);
 			}
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
-		catch(ClassNotFoundException e) {
+		return ownerList;
+	}
+
+	public List<Owner> find(String[] ids) {
+		
+		List<Owner> ownerList = new ArrayList<Owner>();
+		
+		try {
+			Statement stmt = getStatement();
+			
+			for(String id : ids) {
+				String sql = "select * from owners where id=\"" + id + "\"";
+				ResultSet result = stmt.executeQuery(sql);
+				result.next();
+				addOwnertoList(result, ownerList);
+			}
+		}
+		catch(SQLException e) {
 			e.printStackTrace();
 		}
 		
 		return ownerList;
+	}
+	
+	private Statement getStatement() {
+		try {
+			Class.forName(driver);
+			Connection conn = DriverManager.getConnection(db, dbUser, dbPassword);
+			Statement stmt = conn.createStatement();
+			return stmt;
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private void addOwnertoList(ResultSet result, List<Owner> ownerList) {
+		Owner owner = new Owner();
+		
+		try {
+			owner.setId(result.getInt("id"));
+			owner.setFirstName(result.getString("first_name"));
+			owner.setLastName(result.getString("last_name"));
+			owner.setCity(result.getString("city"));
+			owner.setAddress(result.getString("address"));
+			owner.setTelephone(result.getLong("telephone"));
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		ownerList.add(owner);
 	}
 
 }

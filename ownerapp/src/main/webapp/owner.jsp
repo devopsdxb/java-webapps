@@ -18,7 +18,7 @@
 	<div style="float: left; width: 15%; padding-left: 25px;">
 		<form id="form1" name="form1" method="post" action="/ownerapp/owner">
 			<select multiple name="selectID" size="15" class="form-control">
-				<c:forEach items="${owners}" var="owner">
+				<c:forEach items="${allOwners}" var="owner">
 					<option value="${owner.id}">${owner.firstName} ${owner.lastName}</option>
 				</c:forEach>
 			</select> <br>
@@ -31,7 +31,7 @@
 			<tr>
 				<th style="text-align: center;">Owners</th>
 			</tr>
-			<c:forEach items="${owners}" var="owner">
+			<c:forEach items="${ownerList}" var="owner">
 				<tr>
 					<td>
 					ID: ${owner.id}<br>

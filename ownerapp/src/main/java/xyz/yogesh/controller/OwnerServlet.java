@@ -24,14 +24,21 @@ public class OwnerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		OwnerService service = new OwnerService();
-		List<Owner> ownerList = service.findAll();
-		for(Owner owner : ownerList) {
-			System.out.println(owner.getFirstName());
-		}
-		RequestDispatcher rd;
+		List<Owner> ownerList;
+		String[] ids = request.getParameterValues("selectID");
 		
-		request.setAttribute("owners", ownerList);
-		rd = request.getRequestDispatcher("/owner.jsp");
+		List<Owner> allOwners = service.findAll();
+		
+		if(ids == null) {
+			ownerList = allOwners;
+		}
+		else {
+			ownerList = service.find(ids);
+		}
+		
+		request.setAttribute("allOwners", allOwners);
+		request.setAttribute("ownerList", ownerList);
+		RequestDispatcher rd = request.getRequestDispatcher("/owner.jsp");
 		rd.forward(request, response);
 	  
 	}
