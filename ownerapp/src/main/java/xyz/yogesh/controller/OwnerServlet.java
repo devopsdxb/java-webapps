@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import xyz.yogesh.domain.Owner;
 import xyz.yogesh.service.OwnerService;
 
@@ -23,24 +22,30 @@ public class OwnerServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		OwnerService service = new OwnerService();
-		List<Owner> ownerList;
-		String[] ids = request.getParameterValues("selectID");
-		
-		List<Owner> allOwners = service.findAll();
-		
-		if(ids == null) {
-			ownerList = allOwners;
+		String email = (String)request.getSession().getAttribute("email");
+		if(email == null) {
+			request.setAttribute("loginMessage", "You need to login to do that!");
+			request.getRequestDispatcher("/login").forward(request, response);
 		}
 		else {
-			ownerList = service.find(ids);
+			OwnerService service = new OwnerService();
+			List<Owner> ownerList;
+			String[] ids = request.getParameterValues("selectID");
+			
+			List<Owner> allOwners = service.findAll();
+			
+			if(ids == null) {
+				ownerList = allOwners;
+			}
+			else {
+				ownerList = service.find(ids);
+			}
+			
+			request.setAttribute("allOwners", allOwners);
+			request.setAttribute("ownerList", ownerList);
+			RequestDispatcher rd = request.getRequestDispatcher("/owner.jsp");
+			rd.forward(request, response);
 		}
-		
-		request.setAttribute("allOwners", allOwners);
-		request.setAttribute("ownerList", ownerList);
-		RequestDispatcher rd = request.getRequestDispatcher("/owner.jsp");
-		rd.forward(request, response);
-	  
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

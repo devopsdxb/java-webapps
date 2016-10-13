@@ -9,9 +9,6 @@
 <title>Owners</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script type="text/javascript"
-	src="http://gc.kis.scr.kaspersky-labs.com/9DB2A8F9-B092-5E40-BF29-3F49EA7EB608/main.js"
-	charset="UTF-8"></script>
 </head>
 <body>
 	<h3 align="center">List of Owners</h3>

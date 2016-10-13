@@ -1,8 +1,8 @@
 package xyz.yogesh.domain;
 
 public class User {
-	private String name;
 	private String email;
+	private String name;
 	private String password;
 	
 	public String getName() {
