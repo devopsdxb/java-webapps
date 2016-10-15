@@ -17,7 +17,7 @@ public class HibernateOwnerDAO implements OwnerDAO {
 		Session session = HibernateSessionManager.getSessionFactory().openSession();
 		
 		//session.beginTransaction();
-        ownerList = session.getNamedQuery("Owner.getAll").getResultList();
+        ownerList = session.getNamedQuery("Owner.findAll").getResultList();
         //session.getTransaction().commit();
 
 		return ownerList;
@@ -25,14 +25,16 @@ public class HibernateOwnerDAO implements OwnerDAO {
 
 	@Override
 	public Owner findByID(int id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Owner> findByID(int[] ids) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Owner> findByID(List<Integer> ids) {
+		List<Owner> ownerList = new ArrayList<Owner>();
+		Session session = HibernateSessionManager.getSessionFactory().openSession();
+        ownerList = session.getNamedQuery("Owner.findByIDList").setParameter("ownerList", ids).getResultList();
+		return ownerList;
 	}
 
 	@Override

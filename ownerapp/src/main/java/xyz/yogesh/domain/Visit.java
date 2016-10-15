@@ -36,7 +36,6 @@ public class Visit {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
@@ -52,7 +51,7 @@ public class Visit {
 		return this.pet;
 	}
 
-	public void setPets(Pet pet) {
+	public void setPet(Pet pet) {
 		this.pet = pet;
 	}
 

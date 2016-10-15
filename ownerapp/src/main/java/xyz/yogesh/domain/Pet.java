@@ -46,7 +46,6 @@ public class Pet{
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
@@ -58,21 +57,21 @@ public class Pet{
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "owner_id", nullable = false)
-	public Owner getOwners() {
+	public Owner getOwner() {
 		return this.owner;
 	}
 
-	public void setOwners(Owner owner) {
+	public void setOwner(Owner owner) {
 		this.owner = owner;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "type_id", nullable = false)
-	public Type getTypes() {
+	public Type getType() {
 		return this.type;
 	}
 
-	public void setTypes(Type type) {
+	public void setType(Type type) {
 		this.type = type;
 	}
 
@@ -95,7 +94,7 @@ public class Pet{
 		this.birthDate = birthDate;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pets")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pet")
 	public Set<Visit> getVisits() {
 		return this.visits;
 	}

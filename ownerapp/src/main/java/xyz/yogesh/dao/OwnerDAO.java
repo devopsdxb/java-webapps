@@ -10,7 +10,7 @@ public interface OwnerDAO {
 	
 	public Owner findByID(int id);
 	
-	public List<Owner> findByID(int[] ids);
+	public List<Owner> findByID(List<Integer> ids);
 	
 	public Owner create(Owner owner);
 	

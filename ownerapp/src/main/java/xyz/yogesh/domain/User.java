@@ -29,7 +29,6 @@ public class User {
 	}
 
 	@Id
-
 	@Column(name = "EMAIL", unique = true, nullable = false)
 	public String getEmail() {
 		return this.email;

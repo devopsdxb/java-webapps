@@ -9,21 +9,20 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "owners")
-@NamedQuery({
-	@NamedQuery(name = "Owner.getAll", value = "from Owner") 
+@NamedQueries({
+	@NamedQuery(name = "Owner.findAll", query = "from Owner"),
+	@NamedQuery(name = "Owner.findByIDList", query = "from Owner where id in :ownerList")
 })
 public class Owner {
 
-	/**
-	 * 
-	 */
 	private Integer id;
 	private String firstName;
 	private String lastName;
@@ -101,7 +100,7 @@ public class Owner {
 		this.telephone = telephone;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "owners", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
 	public Set<Pet> getPets() {
 		return this.pets;
 	}

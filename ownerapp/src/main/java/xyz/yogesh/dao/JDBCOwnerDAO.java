@@ -37,7 +37,7 @@ public class JDBCOwnerDAO implements OwnerDAO {
 		return ownerList;
 	}
 
-	public List<Owner> findByID(int[] ids) {
+	public List<Owner> findByID(List<Integer> ids) {
 		
 		List<Owner> ownerList = new ArrayList<Owner>();
 		

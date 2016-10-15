@@ -1,5 +1,6 @@
 package xyz.yogesh.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import xyz.yogesh.dao.OwnerDAO;
@@ -15,10 +16,10 @@ public class OwnerService {
 	}
 
 	public List<Owner> find(String[] ids) {
-		int[] idArr = new int[ids.length];
+		List<Integer> idList = new ArrayList<Integer>();
 		for(int i=0; i<ids.length; i++) {
-			idArr[i] = Integer.parseInt(ids[i]);
+			idList.add(Integer.parseInt(ids[i]));
 		}
-		return dao.findByID(idArr);
+		return dao.findByID(idList);
 	}
 }

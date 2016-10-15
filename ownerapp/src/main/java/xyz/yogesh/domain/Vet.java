@@ -6,7 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,7 +29,6 @@ public class Vet {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-
 	@Column(name = "id", unique = true, nullable = false)
 	public Integer getId() {
 		return this.id;
@@ -57,8 +56,8 @@ public class Vet {
 		this.lastName = lastName;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "vets")
-	public Set<Specialty> getVetSpecialties() {
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "vets")
+	public Set<Specialty> getSpecialties() {
 		return this.specialties;
 	}
 
