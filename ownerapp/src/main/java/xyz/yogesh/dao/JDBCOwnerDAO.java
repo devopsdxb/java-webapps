@@ -79,7 +79,7 @@ public class JDBCOwnerDAO implements OwnerDAO {
 			owner.setLastName(result.getString("last_name"));
 			owner.setCity(result.getString("city"));
 			owner.setAddress(result.getString("address"));
-			owner.setTelephone(result.getLong("telephone"));
+			owner.setTelephone(result.getString("telephone"));
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
